@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-// const baseUrl = "http://localhost:3000"
-const baseUrl = "https://niix-brandedthings-production.up.railway.app"
+const baseUrl = "http://localhost:3000"
+// const baseUrl = "https://niix-brandedthings-production.up.railway.app"
 import axios, { Axios } from 'axios'
 import Swal from 'sweetalert2'
 

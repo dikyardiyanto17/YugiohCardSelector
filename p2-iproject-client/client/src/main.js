@@ -1,5 +1,7 @@
 import { createApp, markRaw } from 'vue'
 import { createPinia } from 'pinia'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 import App from './App.vue'
 import router from './router'
@@ -12,7 +14,7 @@ pinia.use(({ store }) => {
 })
 
 app.use(vue3GoogleLogin, {
-  clientId: '241393441600-fp8l6hmpdpfssld3eoqm7gqcniatcf70.apps.googleusercontent.com'
+  clientId: process.env.GOOGLE_CLIENT
 })
 app.use(pinia)
 app.use(router)

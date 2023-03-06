@@ -19,7 +19,7 @@ export default {
     },
     data(){
         return {
-            images: `https://niix-brandedthings-production.up.railway.app/uploads/foto_profile_1.jpg`
+            images: `http://localhost:3000/uploads/foto_profile_15.jpg`
         }
     }
 }
@@ -33,7 +33,7 @@ export default {
                 <h2>Profile</h2>
                 <h4>Username : {{ user.username }}</h4>
                 <h4>Email : {{ user.email }}</h4>
-                <img :src=images style="margin: 20px auto;" alt="" srcset="">
+                <img :src=image style="margin: 20px auto; width: 200px;" alt="" srcset="">
 
                 <form @submit.prevent="multer" enctype="multipart/form-data" >
                     <div class="input-group mb-3">

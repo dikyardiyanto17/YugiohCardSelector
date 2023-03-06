@@ -83,7 +83,7 @@ class Controller {
             if (users){
                 if (comparePassword(password, users.password)){
                     const access_token = encodeToken({id: users.id})
-                    res.status(201).json({message: "Log In Succes", access_token})
+                    res.status(201).json({message: "Log In Succes", access_token, userId: users.id})
                 } else throw {name: "Invalid email or password", message: "Invalid email or password"} 
             } else throw {name: "Invalid email or password", message: "Invalid email or password"}
         } catch (error) {next(error)}}

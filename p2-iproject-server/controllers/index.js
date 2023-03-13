@@ -5,6 +5,7 @@ const { default: axios } = require('axios')
 const {OAuth2Client} = require('google-auth-library');
 const CLIENT_ID = process.env.CLIENT_ID
 const client = new OAuth2Client(CLIENT_ID);
+const redis = require('../config/redis')
 const nodemailer = require('nodemailer')
 const relatedYugiohs = ['https://duelingnexus.com/', 'https://ygoprodeck.com/', 'https://twitter.com/yugioh?lang=en', 'https://www.duellinksmeta.com/', 'https://ycm.netlify.app/calc', 'https://play.google.com/store/apps/details?', 'id=com.zurdo.duelist', 'http://yugiohtracker.com/#/newCards', 'https://www.aygocm.co.uk/']
 
@@ -83,33 +84,42 @@ class Controller {
             if (users){
                 if (comparePassword(password, users.password)){
                     const access_token = encodeToken({id: users.id})
-                    res.status(201).json({message: "Log In Succes", access_token})
+                    res.status(201).json({message: "Log In Succes", access_token, userId: users.id})
                 } else throw {name: "Invalid email or password", message: "Invalid email or password"} 
             } else throw {name: "Invalid email or password", message: "Invalid email or password"}
         } catch (error) {next(error)}}
 
     static async getCard (req, res, next){
         try {
-            const {name, type, atk, def, level, race, attribute, banlist, sort, frameType, desc, fname} = req.query
-            let yugiParams
-            if (name) yugiParams = {name}
-            if (type) yugiParams = {type}
-            if (atk) yugiParams = {atk}
-            if (def) yugiParams = {def}
-            if (level) yugiParams = {level}
-            if (race) yugiParams = {race}
-            if (attribute) yugiParams = {attribute}
-            if (frameType) yugiParams = {frameType}
-            if (banlist) yugiParams = {banlist}
-            if (sort) yugiParams = {sort}
-            if (desc) yugiParams = {desc}
-            if (fname) yugiParams = {fname}
-            const card = await axios({
-                method: "get",
-                url: "https://db.ygoprodeck.com/api/v7/cardinfo.php",
-                params: yugiParams,
-            })
-            res.status(200).json(card.data.data)
+            // const allCardCache = await redis.get("yugioh:cards") // Adding Redis but memory is max
+            // if (allCardCache){
+            //     console.log(allCardCache)
+            //     console.log("HELLO WORLD")
+            //     const data = JSON.parse(allCardCache)
+            //     res.status(200).json(data)
+            // } else {
+                const {name, type, atk, def, level, race, attribute, banlist, sort, frameType, desc, fname} = req.query
+                let yugiParams
+                if (name) yugiParams = {name}
+                if (type) yugiParams = {type}
+                if (atk) yugiParams = {atk}
+                if (def) yugiParams = {def}
+                if (level) yugiParams = {level}
+                if (race) yugiParams = {race}
+                if (attribute) yugiParams = {attribute}
+                if (frameType) yugiParams = {frameType}
+                if (banlist) yugiParams = {banlist}
+                if (sort) yugiParams = {sort}
+                if (desc) yugiParams = {desc}
+                if (fname) yugiParams = {fname}
+                const card = await axios({
+                    method: "get",
+                    url: "https://db.ygoprodeck.com/api/v7/cardinfo.php",
+                    params: yugiParams,
+                })
+                // await redis.set("yugioh:cards", JSON.stringify(card.data.data))
+                res.status(200).json(card.data.data)
+            // }
         } catch (error) {next(error)}}
     
     static async createDeck(req, res, next){

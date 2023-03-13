@@ -19,8 +19,6 @@ export const mainFunction = defineStore('main_function', {
     qrCodes: [],
     relatedYugiohs: ['https://duelingnexus.com/', 'https://ygoprodeck.com/', 'https://twitter.com/yugioh?lang=en', 'https://www.duellinksmeta.com/', 'https://ycm.netlify.app/calc', 'https://play.google.com/store/apps/details?', 'id=com.zurdo.duelist', 'http://yugiohtracker.com/#/newCards', 'https://www.aygocm.co.uk/'],
     image: ''
-
-
   }),
   getters: {
   },
@@ -281,10 +279,10 @@ export const mainFunction = defineStore('main_function', {
           access_token: localStorage.access_token
         },
       })
-      console.log(user)
       this.user.username = user.data.username
       this.user.email = user.data.email
       this.user.id = user.data.id
+      this.image = `http://localhost:3000/uploads/foto_profile_${user.data.id}.jpg`
     },
     async getQrCode(webPage) {
       try {

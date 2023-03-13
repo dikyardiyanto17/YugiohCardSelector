@@ -12,7 +12,6 @@ export default {
         ...mapActions(mainFunction, ['getQrCode'])
     },
     created(){
-        this.getQrCode()
     }
 }
 </script>
@@ -23,7 +22,6 @@ export default {
             <div class="thebg thePad text-center">
                 <h1>More Relavant Site</h1>
                 <div style="display: flex; flex-wrap: wrap; justify-content: center;">
-                    <QrCode v-for="(qrCode, index) in qrCodes" :qrCode="qrCode" :key="index"/> 
                 </div>
             </div>
         </div>

@@ -31,8 +31,6 @@ app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
 app.post('/profile-upload-single', authenthication, upload.single('profile-file'), function (req, res, next) {
-    // req.file is the `profile-file` file
-    // req.body will hold the text fields, if there were any
     console.log(JSON.stringify(req.file))
     let response = '<a href="/">Home</a><br>'
     response += "Files uploaded successfully.<br>"
@@ -40,13 +38,6 @@ app.post('/profile-upload-single', authenthication, upload.single('profile-file'
     return res.status(201).json({message: "Created", path: req.file.path})
 })
 
-// app.post('/upload', (req, res) => {
-//     // Log the files to the console
-//     console.log(req.files);
-
-//     // All good
-//     res.status(200).json()
-// });
 app.use(router)
 
 app.use(errorHandler)
